@@ -1,22 +1,52 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import React from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton } from '@ionic/react';
 import './Home.css';
 
 const Home: React.FC = () => {
+  const styles = {
+    background: 'linear-gradient(to bottom, #1DB954, #191414)',
+    color: '#fff',
+  };
+
+  const headingStyles = {
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: 'bold',
+    fontSize: '2rem',
+  };
+
+  const paragraphStyles = {
+    fontFamily: 'Roboto, sans-serif',
+    fontSize: '1.2rem',
+  };
+
+  
+  const iconStyles = {
+    maxWidth: '100px',
+    maxHeight: '100px', 
+  };
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Music Generator</IonTitle>
+          <IonTitle style={styles}>Multi Music Madness</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
+      <IonContent>
+        <div className="hero" style={styles}>
+          
+          <img src="new_icon.png" alt="Music Player" style={iconStyles} />
+          <h1 style={headingStyles}>Welcome to Multi Music Madness</h1>
+          <p style={paragraphStyles}>Customise and Create your own Music!</p>
+          <IonButton expand="full" fill="solid" color="primary" routerLink="/explore">
+            Explore
+          </IonButton>
+        </div>
+
+       
+    
+
+      
       </IonContent>
     </IonPage>
   );
