@@ -1,0 +1,33 @@
+
+ion-content {
+    --ion-background-color: #4FC3F7;
+  }
+  
+  
+  ion-content,
+  ion-label,
+  ion-button,
+  ion-header {
+    --ion-text-color: #0cf57c;
+  }
+  
+  
+  ion-card {
+    --ion-background-color: #FFFFFF;
+  }
+  
+ 
+  ion-button {
+    --ion-background-color: #FFA726;
+  }
+  
+  
+  ion-header {
+    --ion-background-color: #E0E0E0;
+  }
+  
+ 
+  ion-label.error {
+    --ion-color-danger: #FF6347;
+  }
+  
