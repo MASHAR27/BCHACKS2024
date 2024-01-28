@@ -47,12 +47,13 @@ def gpt_generate(prompt="", tempurture=1, pace=200, seed=-1):
     seed=int(random.random()*1000000) if seed==-1 else seed
     )
 
+    out = response.choices[0].message.content
+    return out
+
+def save_file(out):
     out_mid = MidiFile()
     track = MidiTrack()
     out_mid.tracks.append(track)
-
-    out = response.choices[0].message.content
-    print(out)
     atime = 0
     for i in out.split(" "):
         if i=="0":
@@ -68,4 +69,4 @@ def gpt_generate(prompt="", tempurture=1, pace=200, seed=-1):
     fs.midi_to_audio('new_song.mid', 'output.wav')
 
 if __name__=="__main__":
-    gpt_generate()
+    save_file("0 71 66 66 71 72 71 31 36 36 42 78 46 63 66 57 61 69 35 54 61 61 61 71 39 42 66 38 42 61 39 54 43 42 54 3 59 67 55 43 47 54 4 54 42 4 59 59 42 42 83 71 66 36 83 59 66 31 38 47 36 64 28 54 66 36 39 28 35 47 4 28 66 59 41 49 38 59 54 59 54 64 46 52 42 36 39 4 42 4 36 46 47 59 4 39 54 59 64 48 4")
