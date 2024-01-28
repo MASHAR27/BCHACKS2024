@@ -10,21 +10,24 @@ const Archive: React.FC = () => {
   const [nodes, setNodes] = useState(false);
   const [nodesValue, setNodesValue] = useState('');
   const [instrument, setInstrument] = useState('');
-  useEffect(()=>{
-    fetch("https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/list").then(x=>x.json).then((x: any)=>{
-      
-    setMusicList([...x])
-    })
-  },[])
+  useEffect(() => {
+    fetch("https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/list")
+      .then(x => x.json()).then((x: any) => {
+        setMusicList([...x])
+      })
+  }, [])
   const renderCardContent = () => (
 
     <IonList className="horizontal-list">
       {musicList.map((x, index) => (
         <IonItem key={index}>
           <IonThumbnail slot="start">
-            <img src="/demo.png" />
+            <img src={"https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/music/" + x + ".png"}></img>
+
           </IonThumbnail>
-          <IonLabel style={{ color: "whote" }}>{x}</IonLabel>
+          <audio controls>
+            <source src={"https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/music/" + x + ".wav"} type="audio/ogg" />
+          </audio>
         </IonItem>
       ))}
     </IonList>
@@ -38,8 +41,10 @@ const Archive: React.FC = () => {
         musicList.map((x, index) => (
           <div key={index}>
             <IonCard>
-              <img src="/demo.png"></img>
-              <p style={{ color: "whote" }}>{x}</p>
+              <img src={"https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/music/" + x + ".png"}></img>
+              <audio controls>
+                <source src={"https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/music/" + x + ".wav"} type="audio/ogg" />
+              </audio>
             </IonCard>
           </div>
         ))
@@ -88,7 +93,7 @@ const Archive: React.FC = () => {
             </IonItem>
 
             <IonItem>
-              <IonLabel position="floating">Notes Value</IonLabel>
+              <IonLabel position="floating">Drop a beat</IonLabel>
               <IonInput
                 value={nodes}
                 onIonChange={(e) => setNodes(e.detail.value!)}
@@ -112,16 +117,34 @@ const Archive: React.FC = () => {
             </IonItem>
 
             <IonItem>
-              <IonLabel>A prompt for cover image</IonLabel>
-              <IonTextarea></IonTextarea>
+              <IonLabel>Model</IonLabel>
+              <IonSelect
+              id="b"
+                placeholder="Select One"
+              >
+                <IonSelectOption value="gpt">Fine-tunned GPT</IonSelectOption>
+                <IonSelectOption value="own">Home Baked Transformer</IonSelectOption>
+
+              </IonSelect>
             </IonItem>
+
+            <IonItem>
+              <IonLabel>A prompt for cover image</IonLabel>
+              <IonTextarea id="a"></IonTextarea>
+            </IonItem>
+            <IonButton expand='block' onClick={()=>{
+              const image_prompt = document.querySelector("#a").value
+              const model = document.querySelector("#b").value
+              console.log([seed, temperature, nodes, instrument, image_prompt])
+              fetch(`https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/gen_music?image_prompt=${image_prompt}&model=${model}&prompt=${nodes}&tempurture=${temperature}&seed=${seed}&pace=${instrumentation}&`)
+            }}>Submit</IonButton>
           </IonList>
 
         </IonContent>
       </IonModal>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Albumns</IonTitle>
+          <IonTitle>Albums</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={() => setIsCardView(!isCardView)}>
               {isCardView ? <IonIcon icon={list}></IonIcon> : <IonIcon icon={albumsOutline}></IonIcon>}

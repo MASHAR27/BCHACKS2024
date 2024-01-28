@@ -20,20 +20,18 @@ from fastapi import FastAPI
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-]
 
+
+
+app.mount("/music", StaticFiles(directory="music"), name="music")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"], 
     allow_headers=["*"],
 )
 
@@ -184,9 +182,11 @@ def gen(image_prompt, model="gpt", prompt="0", tempurture=1, seed=-1, pace=100):
 
     if model=="gpt":
         out = gpt_generate(prompt=prompt, tempurture=int(tempurture), seed=int(seed))
+        out = prompt + out
         return save_file(out, uuid, pace=pace)
     else:
         out = own_model_generate(prompt=prompt, tempurture=int(tempurture), seed=int(seed))
+        out = prompt + out
         return save_file(out, uuid, pace=pace)
 
 @app.get("/list")
