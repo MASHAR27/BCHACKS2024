@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton, IonIcon } from '@ionic/react';
-import './Home.css';
+
 import { logoGithub } from 'ionicons/icons'; 
 
 const Home: React.FC = () => {

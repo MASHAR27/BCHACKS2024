@@ -1,88 +1,76 @@
+// Generator.tsx
 import React, { useState } from 'react';
 import {
-  IonButton,
   IonContent,
   IonHeader,
-  IonInput,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonLabel,
   IonItem,
-  IonImg,
-  IonTextarea
+  IonLabel,
+  IonInput,
+  IonList,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/react';
 
 const Generator: React.FC = () => {
-  const [promptText, setPromptText] = useState('');
-  const [image, setImage] = useState<File | null>(null);
-  const [voice, setVoice] = useState<File | null>(null);
-  const [musicLink, setMusicLink] = useState('');
-
-  const handleGenerateMusic = () => {
-    // Logic to generate music based on the inputs
-    // This is a placeholder for the actual music generation logic
-    console.log(`Generating music for prompt: ${promptText}`);
-    // Handle image and voice inputs similarly
-    setMusicLink('link-to-generated-music.mp3'); // Replace with actual music link
-  };
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setImage(event.target.files[0]);
-    }
-  };
-
-  const handleVoiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setVoice(event.target.files[0]);
-    }
-  };
+  const [seed, setSeed] = useState('');
+  const [temperature, setTemperature] = useState('');
+  const [nodes, setNodes] = useState(''); 
+  const [instrument, setInstrument] = useState(''); 
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Music Generator</IonTitle>
+          <IonTitle>Generate Your Music</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Generate Music</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonItem>
-              <IonLabel position="floating">Your Music Prompt</IonLabel>
-              <IonTextarea value={promptText} onIonChange={e => setPromptText(e.detail.value!)} />
-            </IonItem>
+        <IonList>
+          <IonItem>
+            <IonLabel position="floating">Seed</IonLabel>
+            <IonInput
+              value={seed}
+              onIonChange={(e) => setSeed(e.detail.value!)}
+              type="tel"
+            />
+          </IonItem>
 
-            <IonItem>
-              <IonLabel position="stacked">Upload Image</IonLabel>
-              <input type="file" accept="image/*" onChange={handleImageChange} />
-            </IonItem>
+          <IonItem>
+            <IonLabel position="floating">Temperature (Between 0 and 2)</IonLabel>
+            <IonInput
+              value={temperature}
+              onIonChange={(e) => setTemperature(e.detail.value!)}
+              type="number"
+            />
+          </IonItem>
 
-            <IonItem>
-              <IonLabel position="stacked">Record Voice</IonLabel>
-              <input type="file" accept="audio/*" onChange={handleVoiceChange} />
-            </IonItem>
+          <IonItem>
+            <IonLabel position="floating">Notes Value</IonLabel>
+            <IonInput
+              value={nodes}
+              onIonChange={(e) => setNodes(e.detail.value!)}
+              type="text"
+            />
+          </IonItem>
 
-            <IonButton expand="block" onClick={handleGenerateMusic}>Generate Music</IonButton>
-            
-            {musicLink && (
-              <div>
-                <p>Your generated music:</p>
-                <audio controls src={musicLink}>
-                  Your browser does not support the audio element.
-                </audio>
-              </div>
-            )}
-          </IonCardContent>
-        </IonCard>
+          <IonItem>
+            <IonLabel>Instrument</IonLabel>
+            <IonSelect
+              value={instrument}
+              placeholder="Select One"
+              onIonChange={(e) => setInstrument(e.detail.value)}
+            >
+              <IonSelectOption value="piano">Piano</IonSelectOption>
+              <IonSelectOption value="guitar">Guitar</IonSelectOption>
+              <IonSelectOption value="drums">Drums</IonSelectOption>
+              
+            </IonSelect>
+          </IonItem>
+        </IonList>
+       
       </IonContent>
     </IonPage>
   );

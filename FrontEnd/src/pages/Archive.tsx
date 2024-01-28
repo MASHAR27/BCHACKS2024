@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonThumbnail, IonTitle, IonToolbar } from '@ionic/react';
-import './Archive.css';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCheckbox, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonPage, IonSelect, IonSelectOption, IonThumbnail, IonTitle, IonToolbar } from '@ionic/react';
 import { add, albums, albumsOutline, card, list } from 'ionicons/icons';
 const Archive: React.FC = () => {
   const [isCardView, setIsCardView] = useState(true);
   const [musicList, setMusicList] = useState(["hahahahaha", "lalalalala", "lmao", "laugh my teeth off"]);
-  // musicList = A X. setusicList(something)
+  const [isOpen, setIsOpen] = useState(false);
+  const [seed, setSeed] = useState('');
+  const [temperature, setTemperature] = useState('');
+  const [nodes, setNodes] = useState(false);
+  const [nodesValue, setNodesValue] = useState('');
+  const [instrument, setInstrument] = useState(''); 
+  
   const renderCardContent = () => (
 
     <IonList className="horizontal-list">
@@ -14,7 +19,7 @@ const Archive: React.FC = () => {
           <IonThumbnail slot="start">
             <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
           </IonThumbnail>
-          <IonLabel>{x}</IonLabel>
+          <IonLabel style={{ color: "whote" }}>{x}</IonLabel>
         </IonItem>
       ))}
     </IonList>
@@ -29,7 +34,7 @@ const Archive: React.FC = () => {
           <div key={index}>
             <IonCard>
               <img src="/demo.png"></img>
-              <p style={{color:"whote"}}>{x}</p>
+              <p style={{ color: "whote" }}>{x}</p>
             </IonCard>
           </div>
         ))
@@ -46,6 +51,66 @@ const Archive: React.FC = () => {
 
   return (
     <IonPage>
+      <IonModal onDidDismiss={() => {
+        setIsOpen(false)
+      }} isOpen={isOpen}>
+        <IonToolbar>
+          <IonHeader>
+            <IonButtons><IonButton onClick={() => {
+              setIsOpen(false)
+            }}>Close</IonButton></IonButtons>
+            <IonTitle>Create new music</IonTitle>
+          </IonHeader>
+        </IonToolbar>
+        <IonContent>
+
+
+        <IonList>
+          <IonItem>
+            <IonLabel position="floating">Seed</IonLabel>
+            <IonInput
+              value={seed}
+              onIonChange={(e) => setSeed(e.detail.value!)}
+              type="tel"
+            />
+          </IonItem>
+
+          <IonItem>
+            <IonLabel position="floating">Temperature (Between 0 and 2)</IonLabel>
+            <IonInput
+              value={temperature}
+              onIonChange={(e) => setTemperature(e.detail.value!)}
+              type="number"
+              placeholder='The higher the temp, the more random the output.'
+            />
+          </IonItem>
+
+          <IonItem>
+            <IonLabel position="floating">Drop a beat</IonLabel>
+            <IonInput
+              value={nodes}
+              onIonChange={(e) => setNodes(e.detail.value!)}
+              type="text"
+            />
+          </IonItem>
+
+          <IonItem>
+            <IonLabel>Instrument</IonLabel>
+            <IonSelect
+              value={instrument}
+              placeholder="Select One"
+              onIonChange={(e) => setInstrument(e.detail.value)}
+            >
+              <IonSelectOption value="piano">Piano</IonSelectOption>
+              <IonSelectOption value="guitar">Guitar</IonSelectOption>
+              <IonSelectOption value="drums">Drums</IonSelectOption>
+              
+            </IonSelect>
+          </IonItem>
+        </IonList>
+
+        </IonContent>
+      </IonModal>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Albumns</IonTitle>
@@ -59,7 +124,9 @@ const Archive: React.FC = () => {
       <IonContent fullscreen>
         {isCardView ? renderCardContent() : renderListContent()}
         <IonFab style={{ padding: "20px" }} slot="fixed" horizontal="end" vertical="bottom">
-          <IonFabButton><IonIcon icon={add}></IonIcon></IonFabButton>
+          <IonFabButton onClick={() => {
+            setIsOpen(true);
+          }}><IonIcon icon={add}></IonIcon></IonFabButton>
         </IonFab>
       </IonContent>
     </IonPage>
