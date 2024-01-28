@@ -7,7 +7,7 @@ const Archive: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [seed, setSeed] = useState('');
   const [temperature, setTemperature] = useState('');
-  const [nodes, setNodes] = useState(false);
+  const [nodes, setNodes] = useState("0");
   const [nodesValue, setNodesValue] = useState('');
   const [instrument, setInstrument] = useState('');
   useEffect(() => {
@@ -135,8 +135,9 @@ const Archive: React.FC = () => {
             <IonButton expand='block' onClick={()=>{
               const image_prompt = document.querySelector("#a").value
               const model = document.querySelector("#b").value
-              console.log([seed, temperature, nodes, instrument, image_prompt])
-              fetch(`https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/gen_music?image_prompt=${image_prompt}&model=${model}&prompt=${nodes}&tempurture=${temperature}&seed=${seed}&pace=${instrumentation}&`)
+              console.log([seed, temperature, nodes, instrument, image_prompt, model])
+              fetch(`https://8000-mashar27-bchacks2024-8xwj1wdkw0e.ws-us107.gitpod.io/gen_music?image_prompt=${image_prompt}&model=${model}&prompt=${nodes}&tempurture=${temperature}&seed=${seed}&pace=${instrument}&`)
+              setIsOpen(false)
             }}>Submit</IonButton>
           </IonList>
 

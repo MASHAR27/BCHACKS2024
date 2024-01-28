@@ -36,3 +36,6 @@ for i in out.split(" "):
     track.append(mido.Message("note_on",time=atime+200, note=note_name_to_midi(midi_to_note_name(int(i)))))
     atime=0
 out_mid.save('new_song.mid')
+from midi2audio import FluidSynth
+fs = FluidSynth()
+fs.midi_to_audio('new_song.mid', f'music/{12}.wav')

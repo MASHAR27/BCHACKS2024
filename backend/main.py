@@ -158,7 +158,7 @@ def save_file(out, uuid, pace=200):
             continue
         try: 
             # track.append(mido.Message("note_on",time=atime+pace, note=int(i)))
-            track.append(mido.Message("note_on",time=atime+pace, note=note_name_to_midi(midi_to_note_name(int(i)))))
+            track.append(mido.Message("note_on",time=atime+pace, note=int(i)))
             atime=0
         except:
             pass
@@ -176,19 +176,20 @@ def get_music():
 @app.get("/gen_music")
 def gen(image_prompt, model="gpt", prompt="0", tempurture=1, seed=-1, pace=100):
     uuid = int(random.random()*1000000)
-    thread = threading.Thread(target=image_gen, args=('A music cover image for '+image_prompt, uuid))
-    thread.start()
+    # thread = threading.Thread(target=image_gen, args=('A music cover image for '+image_prompt, uuid))
+    # thread.start()
+    image_gen('A music cover image for '+image_prompt, uuid)
     print("started")
 
     if model=="gpt":
         out = gpt_generate(prompt=prompt, tempurture=int(tempurture), seed=int(seed))
-        out = prompt + out
-        return save_file(out, uuid, pace=pace)
+        # out = out #cannot do prompt+=?
+        # return save_file(out, uuid, pace=pace)
     else:
         out = own_model_generate(prompt=prompt, tempurture=int(tempurture), seed=int(seed))
-        out = prompt + out
-        return save_file(out, uuid, pace=pace)
-
+        # out = out #cannot do prompt+=?
+        # return save_file(out, uuid, pace=pace)
+    os.system(f'python3 convert.py "{out}" {uuid}')
 @app.get("/list")
 def list():
     return set([i.split(".")[0] for i in os.listdir("music")])
