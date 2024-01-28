@@ -62,8 +62,8 @@ def midi_to_note_name(midi_number):
 #         print(json.dumps({"messages": [{"role": "system", "content": system}, {"role": "user", "content": "Now you generate a music with title "+prompts[i]}, {"role": "assistant", "content": content}]}))
 #         # print(json.dumps({"prompt": "Request: "+i.split("/")[-1], "completion": "Answer: " + content}))
 
-# for i in list(pathlib.Path('.').rglob('*.mid'))[:1]:
-for i in ["./2 Brothers on the 4th Floor/Come Take My Hand.mid"]:
+for i in list(pathlib.Path('.').rglob('*.mid'))[:5000]:
+# for i in ["./2 Brothers on the 4th Floor/Come Take My Hand.mid"]:
     try:
         content = ""
         i = str(i)
@@ -71,13 +71,16 @@ for i in ["./2 Brothers on the 4th Floor/Come Take My Hand.mid"]:
         # print(len(mid.tracks))
         for j in mid.tracks[1:]:
             mid.tracks[0] += j 
-        count = 0
+        count = 0 
         for j in mid.tracks[0]:
             if j.type=="note_on" or j.type=="note_off":
                     track.append(mido.Message(j.type, time=(j.time//100)*100, note=j.note))
-                    content += f"{j.note} {j.velocity} {round(j.time)},"
+                    for i in range(j.time//100):
+                        content+="0 "
+                    content += str(j.note)+" "
                     count+=1
                     if count>=200:
+                        # break
                         # print(json.dumps({"prompt": "Request: "+i.split("/")[-1], "completion": "Answer: " + content}))
                         # print(json.dumps({"messages": [{"role": "system", "content": system}, {"role": "user", "content": "Now you generate a music with title "+i.split("/")[-1]}, {"role": "assistant", "content": content}]}))
                         print(content)
