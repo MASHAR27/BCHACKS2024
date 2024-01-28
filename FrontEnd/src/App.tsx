@@ -8,6 +8,8 @@ import Generator from './pages/Generator';
 import PlayList from './pages/PlayList';
 import Stats from './pages/Statistics';
 
+import Logout from './pages/Logout';
+
 import Share from './pages/Share';
 
 import '@ionic/react/css/core.css';
@@ -38,6 +40,8 @@ const App: React.FC = () => (
       <Route exact path="/PlayList" component={PlayList} />
       <Route exact path="/Generator" component={Generator} />
       <Route exact path="/Archive" component={Archive} />
+
+      <Route exact path="/Logout" component={Logout} />
 
       <Route exact path="/Share" component={Share} />
         <Route exact path="/home">
