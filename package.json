@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@ionic/cli": "^7.2.0",
     "chart.js": "^4.4.1",
     "react-chartjs-2": "^5.2.0"
   }

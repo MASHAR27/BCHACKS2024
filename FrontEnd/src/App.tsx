@@ -5,10 +5,11 @@ import Home from './pages/Home';
 import Archive from './pages/Archive';
 import Generator from './pages/Generator';
 
-import PlayList from './pages/PlayList';
-import Stats from './pages/Statistics';
 
-import Share from './pages/Share';
+
+
+
+
 
 import '@ionic/react/css/core.css';
 
@@ -28,18 +29,17 @@ import '@ionic/react/css/display.css';
 
 import './theme/variables.css';
 
-setupIonicReact();
+setupIonicReact({mode:"ios"});
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-      <Route exact path="/Stats" component={Stats} />
-      <Route exact path="/PlayList" component={PlayList} />
       <Route exact path="/Generator" component={Generator} />
       <Route exact path="/Archive" component={Archive} />
 
-      <Route exact path="/Share" component={Share} />
+     
+
         <Route exact path="/home">
           <Home />
         </Route>
