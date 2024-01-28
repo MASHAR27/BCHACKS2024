@@ -3,7 +3,7 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import Archive from './pages/Archive';
-
+import Generator from './pages/Generator';
 
 import '@ionic/react/css/core.css';
 
@@ -29,6 +29,7 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+      <Route exact path="/Generator" component={Generator} />
       <Route exact path="/Archive" component={Archive} />
         <Route exact path="/home">
           <Home />
