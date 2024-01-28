@@ -1,6 +1,7 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton, IonIcon } from '@ionic/react';
 import './Home.css';
+import { logoGithub } from 'ionicons/icons'; 
 
 const Home: React.FC = () => {
   const styles = {
@@ -19,10 +20,14 @@ const Home: React.FC = () => {
     fontSize: '1.2rem',
   };
 
-  
   const iconStyles = {
     maxWidth: '100px',
-    maxHeight: '100px', 
+    maxHeight: '100px',
+  };
+
+  const loginButtonStyles = {
+    fontSize: '0.8rem', 
+    padding: '10px 20px', 
   };
 
   return (
@@ -34,19 +39,13 @@ const Home: React.FC = () => {
       </IonHeader>
       <IonContent>
         <div className="hero" style={styles}>
-          
           <img src="new_icon.png" alt="Music Player" style={iconStyles} />
           <h1 style={headingStyles}>Welcome to Multi Music Madness</h1>
           <p style={paragraphStyles}>Customise and Create your own Music!</p>
-          <IonButton expand="full" fill="solid" color="primary" routerLink="/explore">
-            Explore
+          <IonButton expand="full" fill="solid" color="primary" routerLink="/explore" style={loginButtonStyles}>
+            <IonIcon icon={logoGithub} slot="start" /> Login with GitHub
           </IonButton>
         </div>
-
-       
-    
-
-      
       </IonContent>
     </IonPage>
   );
