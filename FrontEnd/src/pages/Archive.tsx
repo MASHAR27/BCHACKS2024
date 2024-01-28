@@ -1,128 +1,66 @@
 import React, { useState } from 'react';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonThumbnail, IonTitle, IonToolbar } from '@ionic/react';
-
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonThumbnail, IonTitle, IonToolbar } from '@ionic/react';
+import './Archive.css';
+import { add, albums, albumsOutline, card, list } from 'ionicons/icons';
 const Archive: React.FC = () => {
   const [isCardView, setIsCardView] = useState(true);
-
+  const [musicList, setMusicList] = useState(["hahahahaha", "lalalalala", "lmao", "laugh my teeth off"]);
+  // musicList = A X. setusicList(something)
   const renderCardContent = () => (
-    <IonCard>
-      <IonCardHeader>
-      
-      </IonCardHeader>
-      <IonCardContent>
-      <IonCard>
-      <IonCardContent>
-        <IonList>
-          <IonItem>
-            <IonThumbnail slot="start">
-              <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-            </IonThumbnail>
-            <IonLabel>Create your own Music</IonLabel>
-          </IonItem>
 
-          <IonItem>
-            <IonThumbnail slot="start">
-              <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-            </IonThumbnail>
-            <IonLabel>Your Music PlayList</IonLabel>
-          </IonItem>
+    <IonList className="horizontal-list">
+      {musicList.map((x, index) => (
+        <IonItem key={index}>
+          <IonThumbnail slot="start">
+            <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+          </IonThumbnail>
+          <IonLabel>{x}</IonLabel>
+        </IonItem>
+      ))}
+    </IonList>
 
-          <IonItem>
-            <IonThumbnail slot="start">
-              <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-            </IonThumbnail>
-            <IonLabel>Your Music Statistics/Patterns</IonLabel>
-          </IonItem>
-
-          <IonItem lines="none">
-            <IonThumbnail slot="start">
-              <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-            </IonThumbnail>
-            <IonLabel>Share Your PlayList</IonLabel>
-          </IonItem>
-
-          <IonItem lines="none">
-            <IonThumbnail slot="start">
-              <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-            </IonThumbnail>
-            <IonLabel>LogOut</IonLabel>
-          </IonItem>
-        </IonList>
-      </IonCardContent>
-    </IonCard>
-
-
-      </IonCardContent>
-    </IonCard>
   );
+
 
   const renderListContent = () => (
     <IonList>
-     
+      {
+        musicList.map((x, index) => (
+          <div key={index}>
+            <IonCard>
+              <img src="/demo.png"></img>
+              <p style={{color:"whote"}}>{x}</p>
+            </IonCard>
+          </div>
+        ))
+      }
 
-      <IonItem>
-        <IonThumbnail slot="start">
-          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-        </IonThumbnail>
-        <IonLabel>Create your own Music</IonLabel>
-      </IonItem>
-
-
-      <IonItem>
-        <IonThumbnail slot="start">
-          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-        </IonThumbnail>
-        <IonLabel>Your Music PlayList</IonLabel>
-      </IonItem>
-
-
-
-      <IonItem>
-        <IonThumbnail slot="start">
-          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-        </IonThumbnail>
-        <IonLabel>Your Music Statistics/Patterns</IonLabel>
-      </IonItem>
-
-      <IonItem>
-        <IonThumbnail slot="start">
-          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-        </IonThumbnail>
-        <IonLabel>Share Your PlayList</IonLabel>
-      </IonItem>
-
-
-    
-      <IonItem>
-        <IonThumbnail slot="start">
-          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-        </IonThumbnail>
-        <IonLabel>LogOut</IonLabel>
-      </IonItem>
-
-
-
-     
     </IonList>
   );
+
+
+
+
+
+
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Archive</IonTitle>
-          <IonButton onClick={() => setIsCardView(!isCardView)}>
-            {isCardView ? 'Switch to List View' : 'Switch to Card View'}
-          </IonButton>
+          <IonTitle>Albumns</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={() => setIsCardView(!isCardView)}>
+              {isCardView ? <IonIcon icon={list}></IonIcon> : <IonIcon icon={albumsOutline}></IonIcon>}
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Archive</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         {isCardView ? renderCardContent() : renderListContent()}
+        <IonFab style={{ padding: "20px" }} slot="fixed" horizontal="end" vertical="bottom">
+          <IonFabButton><IonIcon icon={add}></IonIcon></IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   );
