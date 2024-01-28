@@ -15,6 +15,28 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 DIM = 512
 import math
 import torch.nn as nn
+
+from fastapi import FastAPI
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class PositionalEncoding(nn.Module):
 
     def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):
@@ -51,8 +73,24 @@ class Music(torch.nn.Module):
     feature = self.trans(feature, mask=torch.nn.Transformer.generate_square_subsequent_mask(200), is_causal=True)
     return self.output(feature)
 model = Music()
-model = torch.load("music.mod", map_location=device)
 
+# model = torch.load("music.mod", map_location=device)
+# torch.save(model.state_dict(), "music.dict")
+# quit()
+model.load_state_dict(torch.load("music.dict"))
+import threading
+import os
+def image_gen(prompt, uuid):
+    response = client.images.generate(
+        model="dall-e-3",
+        prompt=prompt,
+        size="1024x1024",
+        quality="standard",
+        n=1,
+    )
+    image_url = response.data[0].url
+    print(image_url)
+    os.system(f"wget \"{image_url}\" -O music/{uuid}.png")
 
 with open("key.key", "r") as f:
     key=f.read()
@@ -111,7 +149,7 @@ def own_model_generate(prompt="0", tempurture=1, seed=-1):
         inp = torch.concat((inp, out), dim=-1)
     return " ".join([str(i) for i in inp.detach().numpy()[0]])
     
-def save_file(out, pace=200):
+def save_file(out, uuid, pace=200):
     out_mid = MidiFile()
     track = MidiTrack()
     out_mid.tracks.append(track)
@@ -127,8 +165,30 @@ def save_file(out, pace=200):
         except:
             pass
     out_mid.save('new_song.mid')
-    fs.midi_to_audio('new_song.mid', 'output.wav')
+    fs.midi_to_audio('new_song.mid', f'music/{uuid}.wav')
+    return uuid
 
-if __name__=="__main__":
-    out = own_model_generate()
-    save_file(out)
+def read_file(name):
+    with open(name, "r") as f:
+        return f.read()
+
+def get_music():
+    return [i for i in os.listdir("music")]
+
+@app.get("/gen_music")
+def gen(image_prompt, model="gpt", prompt="0", tempurture=1, seed=-1, pace=100):
+    uuid = int(random.random()*1000000)
+    thread = threading.Thread(target=image_gen, args=('A music cover image for '+image_prompt, uuid))
+    thread.start()
+    print("started")
+
+    if model=="gpt":
+        out = gpt_generate(prompt=prompt, tempurture=int(tempurture), seed=int(seed))
+        return save_file(out, uuid, pace=pace)
+    else:
+        out = own_model_generate(prompt=prompt, tempurture=int(tempurture), seed=int(seed))
+        return save_file(out, uuid, pace=pace)
+
+@app.get("/list")
+def list():
+    return set([i.split(".")[0] for i in os.listdir("music")])
