@@ -182,11 +182,11 @@ def gen(image_prompt, model="gpt", prompt="0", tempurture=1, seed=-1, pace=100):
     print("started")
 
     if model=="gpt":
-        out = gpt_generate(prompt=prompt, tempurture=int(tempurture), seed=int(seed))
+        out = gpt_generate(prompt=prompt, tempurture=float(tempurture), seed=int(seed))
         # out = out #cannot do prompt+=?
         # return save_file(out, uuid, pace=pace)
     else:
-        out = own_model_generate(prompt=prompt, tempurture=int(tempurture), seed=int(seed))
+        out = own_model_generate(prompt=prompt, tempurture=float(tempurture), seed=int(seed))
         # out = out #cannot do prompt+=?
         # return save_file(out, uuid, pace=pace)
     os.system(f'python3 convert.py "{out}" {uuid}')
